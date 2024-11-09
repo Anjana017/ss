@@ -3,20 +3,16 @@
 #include <stdlib.h>
 char bit[30];
 char bitmask[20];
-
 void bitmask_convert(char mask[])
 {
 	int len;
 	len=strlen(mask);
 	strcpy(bit,"");
-
 	int i;
-
 	for(i=0;i<len;++i)
 	{
 		switch(mask[i])
 		{
-		
 			case '0': strcat(bit,"0000");
 				  break;
 			case '1': strcat(bit,"0001");
@@ -43,27 +39,18 @@ void bitmask_convert(char mask[])
                                   break;
 			case 'C': strcat(bit,"1100");
                                   break;
-	
 			case 'D': strcat(bit,"1101");
                                   break;
 			case 'E': strcat(bit,"1110");
                                   break;
-
 			case 'F': strcat(bit,"1111");
                                   break;
-
 			default : break;
 		}
-
 	}
-	
 }
-
-
-
 void main()
 {
-
 	FILE *objptr;
 	int start,addr;
 	char rec[20];
@@ -74,20 +61,17 @@ void main()
 	int bitmask_index=0;
 	int i;
 	int  add,len;
-
 	printf("ENTER THE STARTING ADDRESS OF THE PROGRAM\n");
 	scanf("%X",&start);
 	addr=start;
 	objptr=fopen("program.txt","r");
        fscanf(objptr,"%s",rec);
-
        if(strcmp(rec,"H")==0)
        {
 	       fscanf(objptr,"%s",name);
 	       fscanf(objptr,"%X",&add);
 	       fscanf(objptr,"%X",&len);
 	      printf("\nPROGRAM NAME=%s\n\n",name);
-
 	      printf(" ADDRESS   OBJECT CODE \n");
 	      printf("____________________________\n");
        }
@@ -97,7 +81,6 @@ void main()
 		fclose(objptr);
 		exit(1);
 	}
-      
        strcpy(rec,"");
        fscanf(objptr,"%s",rec);
        while(strcmp(rec,"E")!=0)
@@ -112,30 +95,24 @@ void main()
 		       bitmask_convert(bitmask);
 		       fscanf(objptr,"%s",rec);
 	       }
-
 		if(bit[bitmask_index]=='1')
 	 	{
 			for(i=0;i<6;++i)
 			{
 				if(i<2)
 				{
-					
 					first[i]=rec[i];
-					
 				}
 				else
 				{
 					second[i-2]=rec[i];
-
 				}
 			}
 			first[2]='\0';
 			second[4]='\0';
 			modif_obj_code=strtol(second,NULL,16);
 			modif_obj_code+=start;
-
-			printf("%X\t%s%X\n",add,first,modif_obj_code);
-				
+			printf("%X\t%s%X\n",add,first,modif_obj_code);	
 		}
 		else
 		{
@@ -144,11 +121,8 @@ void main()
 		}		
 		add+=3;
 		bitmask_index++;
-		
 	       fscanf(objptr,"%s",rec);
        }
-       
 
        fclose(objptr);
 }
-
