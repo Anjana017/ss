@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-// Function prototypes
 void display();
 void swap(char *x, char *y);
 char* reverse(char *buffer, int i, int j);
@@ -13,14 +11,12 @@ void swap(char *x, char *y) {
     *x = *y; 
     *y = t;
 }
-
 char* reverse(char *buffer, int i, int j) {
     while (i < j) {
         swap(&buffer[i++], &buffer[j--]);
     }
     return buffer;
 }
-
 char* itoa(int value, char* buffer, int base) {
     if (base < 2 || base > 32) {
         return buffer;
@@ -28,8 +24,6 @@ char* itoa(int value, char* buffer, int base) {
     
     int n = abs(value);
     int i = 0;
-    
-    // Convert integer to string in the specified base
     while (n) {
         int r = n % base;
         if (r >= 10) {
@@ -39,15 +33,12 @@ char* itoa(int value, char* buffer, int base) {
         }
         n = n / base;
     }
-    
     if (i == 0) {
         buffer[i++] = '0';
     }
-    
     if (value < 0 && base == 10) {
         buffer[i++] = '-';
     }
-    
     buffer[i] = '\0';
     return reverse(buffer, 0, i - 1);
 }
@@ -57,30 +48,23 @@ int main() {
     int start, diff, address, add, len, actual_len, finaddr, prevaddr, j = 0;
     char mnemonic[15][15] = {"LDA", "STA", "LDCH", "STCH"};
     char code[15][15] = {"33", "44", "53", "57"};
-    
     FILE *fp1 = fopen("output.txt", "w");
     FILE *fp2 = fopen("symtab.txt", "r");
     FILE *fp3 = fopen("intermediate.txt", "r");
     FILE *fp4 = fopen("objcode.txt", "w");
-
     if (!fp1 || !fp2 || !fp3 || !fp4) {
         perror("Error opening file");
         return EXIT_FAILURE;
     }
-
     fscanf(fp3, "%s\t%s\t%s", label, opcode, operand);
-    
-    // Read until the END opcode
     while (strcmp(opcode, "END") != 0) {
         prevaddr = address;
         fscanf(fp3, "%d%s%s%s", &address, label, opcode, operand);
     }
-    
     finaddr = address;
     fclose(fp3);
     fp3 = fopen("intermediate.txt", "r");
     fscanf(fp3, "\t%s\t%s\t%s", label, opcode, operand);
-    
     if (strcmp(opcode, "START") == 0) {
         fprintf(fp1, "\t%s\t%s\t%s\n", label, opcode, operand);
         fprintf(fp4, "H^%s^00%s^00%d\n", label, operand, finaddr);
@@ -89,8 +73,6 @@ int main() {
         diff = prevaddr - start;
         fprintf(fp4, "T^00%d^%d", address, diff);
     }
-    
-    // Process opcodes
     while (strcmp(opcode, "END") != 0) {
         if (strcmp(opcode, "BYTE") == 0) {
             fprintf(fp1, "%d\t%s\t%s\t%s\t", address, label, opcode, operand);
@@ -127,14 +109,11 @@ int main() {
         }
         fscanf(fp3, "%d%s%s%s", &address, label, opcode, operand);
     }
-
     fprintf(fp1, "%d\t%s\t%s\t%s\n", address, label, opcode, operand);
     fprintf(fp4, "\nE^00%d", start);
-    
     fclose(fp4);
     fclose(fp3);
     fclose(fp2);
     fclose(fp1);
-
     return 0;
 }
