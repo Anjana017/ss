@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-void displayfilecontents(const char *filename);
 int main() {
     char a[10], ad[10], label[10], opcode[10], operand[10], symbol[10];
     int start, diff, i, address, add, len, actual_len, finaddr, prevaddr, j = 0;
