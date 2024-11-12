@@ -72,24 +72,5 @@ int main() {
     fclose(fp3);
     fclose(fp2);
     fclose(fp1);
-    displayfilecontents("output.txt");
-    displayfilecontents("intermediate.txt");
-    displayfilecontents("objcode.txt");
     return 0;
-}
-void displayfilecontents(const char *filename)
-{
-    FILE *fp=fopen(filename,"r");
-    if(!fp)
-    {
-        printf("cant open");
-        return;
-    }
-    char ch;
-    printf("\ncontent of %s:\n\n",filename);
-    while((ch=fgetc(fp))!=EOF)
-    {
-        printf("%c",ch);
-    }
-    fclose(fp);
 }
