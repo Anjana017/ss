@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-void processRecord(FILE *fp1, FILE *fp2, int *address, char *input);
 void handleHeader(FILE *fp1, int *length);
 void handleTextRecord(FILE *fp1, FILE *fp2, int *address, char *input);
 void handleOtherRecord(FILE *fp2, int *address, char *input);
